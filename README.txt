@@ -16,3 +16,6 @@ CORREZIONE v4: riconoscimento completo delle sei sottodomande C3, incluse posta 
 VERSIONE 5 — Statistiche del PW V6.1: nuova scheda con elaborazioni sul dataset completo, riferimento tecnico fisso, ICS, sensibilità, Spearman, Fisher 2×3 e test dei segni. Rapporto HTML esportabile. I temi qualitativi riportano i valori pubblicati, non ricalcolati senza allegato 26. H3 usa tre categorie sostanziali (codifica ricostruita). Il denominatore dell’incertezza è quello delle domande applicabili, da verificare rispetto al PW. Test numerici verificati su conteggi pubblicati per Fisher H5 e test dei segni; non verificato sul dataset originale.
 
 VERSIONE 6: grafici SVG nelle statistiche PW, esportabili singolarmente e inclusi nel rapporto HTML. I grafici qualitativi rappresentano i valori pubblicati, non ricalcolati.
+
+
+VERSIONE 7 — font ingranditi, approfondimenti per tutte le sezioni PW con formule e passaggi logici; pulsante per finestra modale. Aprire index.html.
