@@ -19,3 +19,5 @@ VERSIONE 6: grafici SVG nelle statistiche PW, esportabili singolarmente e inclus
 
 
 VERSIONE 7 — font ingranditi, approfondimenti per tutte le sezioni PW con formule e passaggi logici; pulsante per finestra modale. Aprire index.html.
+
+VERSIONE 8 — ordine delle categorie conforme al questionario, regioni in ordine alfabetico, Non so e mancanti in coda; graduatorie di incertezza e temi per frequenza decrescente. Tabelle e grafici coerenti. Titolo grafici Fisher corretto.

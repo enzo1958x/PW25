@@ -1,5 +1,11 @@
 'use strict';
 // Pagina indipendente: riproduzione delle convenzioni fisse del PW V6.1, pp. 16–27.
+// Ordine canonico del questionario; categorie libere alfabetiche, non risposte in coda.
+function pwOrderedCategories(id,values){
+ const opts=byId[id].options;
+ const rank=v=>v==='Mancante'?Number.MAX_SAFE_INTEGER:special(v)?Number.MAX_SAFE_INTEGER-1:opts.includes(v)?opts.indexOf(v):opts.length;
+ return [...new Set(values)].sort((a,b)=>rank(a)-rank(b)||String(a).localeCompare(String(b),'it',{numeric:true,sensitivity:'base'}));
+}
 function renderPW(){
  const root=$('pwResults'),rows=data,N=rows.length;if(!N){root.innerHTML='<p>Importa le interviste nella scheda Dati e interviste per ottenere i risultati.</p>';return;}
  const pct=(a,b)=>b?nfmt(100*a/b)+'%':'—',pstr=p=>p===null?'—':p.toFixed(5).replace('.',','),valid=(r,id)=>!missing(r[id])&&!special(r[id]),sum=a=>a.reduce((s,v)=>s+v,0),count=(a,f)=>a.filter(f).length;
@@ -7,11 +13,11 @@ function renderPW(){
  const qs=schema.filter(s=>/^[B-I]/.test(s.id)&&s.id!=='ID');
  const profile=rows.map(r=>{const t=summarizeQuestions([r],qs).totals;return {r,t,rate:t.applicable?t.unknown/t.applicable:null};});
  const totals=summarizeQuestions(rows,qs),t=totals.totals;const allUnknown=sum(profile.map(v=>v.t.unknown));
- add('1 · Composizione del campione','Distribuzione per variabile; frequenze sul totale delle interviste.',[['Variabile','Categoria','n','%'],...['B1','B2','B3','B4','B5','B6','B7','L1','L4'].flatMap(id=>[...new Set(rows.map(r=>r[id]||'Mancante'))].map(v=>[byId[id].label,v,count(rows,r=>(r[id]||'Mancante')===v),pct(count(rows,r=>(r[id]||'Mancante')===v),N)]))]);
+ add('1 · Composizione del campione','Distribuzione per variabile; frequenze sul totale delle interviste.',[['Variabile','Categoria','n','%'],...['B1','B2','B3','B4','B5','B6','B7','L1','L4'].flatMap(id=>pwOrderedCategories(id,rows.map(r=>r[id]||'Mancante')).map(v=>[byId[id].label,v,count(rows,r=>(r[id]||'Mancante')===v),pct(count(rows,r=>(r[id]||'Mancante')===v),N)]))]);
  add('2 · Incertezza complessiva','Denominatore: domande B–I applicabili, esclusi metadati e campi condizionati non applicabili. Il PW riporta 142/2528; la convenzione del denominatore va confrontata con il dataset.',[['Indicatore','n','%'],['Intervistati con almeno un Non so',count(profile,v=>v.t.unknown>0),pct(count(profile,v=>v.t.unknown>0),N)],['Non so',t.unknown,pct(t.unknown,t.applicable)],['Applicabili',t.applicable,''],['Compilate',t.answered,''],['Mancanti',t.missing,''],...totals.section.map(v=>['Sezione '+v.code,v.unknown,pct(v.unknown,v.applicable)+' · quota dei Non so '+pct(v.unknown,allUnknown)])]);
- add('3 · Domande con maggiore incertezza','Ordinate per numero di Non so.',[['Domanda','n Non so','% applicabili'],...totals.detail.slice().sort((a,b)=>b.unknown-a.unknown).map(v=>[v.id+' · '+v.label,v.unknown,pct(v.unknown,v.applicable)])]);
+ add('3 · Domande con maggiore incertezza','Ordinate per numero di Non so.',[['Domanda','n Non so','% applicabili'],...totals.detail.slice().sort((a,b)=>b.unknown-a.unknown||a.id.localeCompare(b.id,'it',{numeric:true})).map(v=>[v.id+' · '+v.label,v.unknown,pct(v.unknown,v.applicable)])]);
  const max=Math.max(...profile.map(v=>v.t.unknown)),out=profile.filter(v=>v.t.unknown===max&&max>0);const reduced=out.length===1?profile.filter(v=>v!==out[0]):profile;
- function groups(id,pp){return [...new Set(pp.map(v=>v.r[id]||'Mancante'))].map(g=>{const a=pp.filter(v=>(v.r[id]||'Mancante')===g),u=sum(a.map(v=>v.t.unknown)),d=sum(a.map(v=>v.t.applicable)),k=count(a,v=>v.t.unknown>0);return [g,a.length,u,d,pct(u,d),k,pct(k,a.length)];});}
+ function groups(id,pp){return pwOrderedCategories(id,pp.map(v=>v.r[id]||'Mancante')).map(g=>{const a=pp.filter(v=>(v.r[id]||'Mancante')===g),u=sum(a.map(v=>v.t.unknown)),d=sum(a.map(v=>v.t.applicable)),k=count(a,v=>v.t.unknown>0);return [g,a.length,u,d,pct(u,d),k,pct(k,a.length)];});}
  for(const id of ['B1','B3','B2'])add('4 · Incertezza per '+byId[id].label,'La quota individuale usa le domande applicabili. Nessun test per genere o istruzione nel PW.',[['Gruppo','n','Non so','Applicabili','% Non so','Persone con Non so','% persone'],...groups(id,profile)]);
  add('5 · Sensibilità all’osservazione anomala',out.length===1?'Esclusione esplorativa del massimo unico: '+out[0].r.ID+' ('+max+' Non so).':'Massimo non univoco: nessuna esclusione automatica.',[['Età','n','Non so','Applicabili','% Non so','Persone con Non so','% persone'],...groups('B1',reduced)]);
  const tests=[];function corr(label,pairs,reference){const a=pairs.filter(p=>p.every(v=>v!==null&&Number.isFinite(v))),rho=Stats.spearman(a.map(p=>p[0]),a.map(p=>p[1])),p=Stats.spearmanP(rho,a.length);tests.push([label,a.length,rho===null?'—':rho.toFixed(4).replace('.',','),pstr(p),p===null?'Non calcolabile':p<.05?'Significativo':'Non significativo',reference]);}
