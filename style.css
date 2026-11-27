@@ -19,3 +19,8 @@ nav{flex-wrap:wrap}
 .pw-block{margin:24px 0;padding:22px;border:1px solid #d6e1ec;border-radius:8px;background:#fff}.pw-block h3{font-size:24.8px;color:#23486d;margin:0 0 8px}.pw-block p{font-size:19.3px;line-height:1.6}.pw-block table{font-size:19.3px}.pw-block th{background:#23486d;color:white}.pw-block tr:nth-child(even){background:#f0f5fa}.pw-block .table-wrap{max-height:540px}
 
 .pw-chart{margin:18px 0 24px;border:1px solid #dce2e9;border-radius:8px;padding:12px;background:white}.pw-chart-scroll{overflow:auto}.pw-chart svg{display:block;width:100%;max-width:1050px;min-width:650px;height:auto;margin:auto}.pw-heat svg{max-width:540px;min-width:400px}.pw-chart figcaption{text-align:right;margin-top:8px}.pw-block{margin-bottom:28px} @media print{.pw-chart{break-inside:avoid}.pw-chart figcaption{display:none}.pw-chart svg{min-width:0}}
+
+/* Stampa PW25 V9 */
+.pw-print-choice{display:flex;flex-direction:column;gap:4px;min-width:240px;max-width:100%;flex:1}.pw-print-choice select{width:100%;max-width:100%;font:inherit}.pw-print-single{margin:0 0 10px;font-weight:650;color:#23486d}.pw-print-single:hover{border-color:#315d88}
+
+.pw-excel-single{margin-left:8px;color:#245a45}

@@ -21,3 +21,9 @@ VERSIONE 6: grafici SVG nelle statistiche PW, esportabili singolarmente e inclus
 VERSIONE 7 — font ingranditi, approfondimenti per tutte le sezioni PW con formule e passaggi logici; pulsante per finestra modale. Aprire index.html.
 
 VERSIONE 8 — ordine delle categorie conforme al questionario, regioni in ordine alfabetico, Non so e mancanti in coda; graduatorie di incertezza e temi per frequenza decrescente. Tabelle e grafici coerenti. Titolo grafici Fisher corretto.
+
+V9 — stampa statistiche PW
+Aprire Statistiche del PW dopo l'importazione. Il selettore di stampa propone tutte le sezioni per default; scegliere una singola sezione oppure il pulsante Stampa questa statistica nella relativa scheda. L'anteprima contiene grafici SVG, commenti, formule/calcoli e tabelle; usare Stampa / salva come PDF nella nuova finestra. Consentire i popup se bloccati. I calcoli statistici originali non vengono modificati. I valori qualitativi restano quelli pubblicati nel PW.
+
+V10 — esportazione Excel delle statistiche PW
+Il medesimo selettore del PDF consente di esportare tutte le analisi (default) o una singola; è disponibile anche il pulsante Excel su ogni analisi. Il file contiene indice, fogli di analisi con commenti, formule/passaggi testuali, tabelle numeriche e grafici PNG incorporati, dataset normalizzato e dizionario. I grafici sono immagini, non grafici Excel nativi. Le formule statistiche sono documentate come nel PDF e non ricalcolate da Excel. Anche il rapporto singolo contiene il dataset completo; verificare i testi liberi prima della condivisione. Tutto avviene nel browser senza server o librerie aggiuntive.
